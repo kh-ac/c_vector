@@ -106,6 +106,6 @@ void vector_add(vector v , element_type element)
 {
     assert(v);
     if(v->size == v->capacity) vector_double_capacity(v);
-    v->array[v->size] = element ;
+    v->array[v->size++] = element ;
     
 }
