@@ -41,13 +41,24 @@ vector vector_create()
     return v ;
 }
 
+unsigned vector_size(vector v )
+{
+    assert(v);
+    return v->size ;
+}
+
+unsigned vector_capacity(vector v )
+{
+    assert(v);
+    return v->capacity ;
+}
+
 void vector_print(vector v)
 {
     for (int i = 0 ; i < v->size ; i++ )
     {
         printf("%d|",v->array[i]);
     }
-
 }
 
 void vector_delete(vector v)
@@ -106,6 +117,57 @@ void vector_add(vector v , element_type element)
 {
     assert(v);
     if(v->size == v->capacity) vector_double_capacity(v);
-    v->array[v->size++] = element ;
-    
+    v->array[v->size++] = element ; 
+}
+
+element_type vector_get(vector v)
+{
+    assert(v);
+    return v->array[v->size-1];
+}
+
+void vector_put(vector v,unsigned index, element_type element) // Overwrite array[index]
+{
+    assert(v);
+    if (index < 0 || index >= v->size)
+    {
+        fprintf(stderr,"Out of index");
+        abort();
+    }
+    v->array[index] = element ;
+}
+
+void vector_add_at(vector v, unsigned index , element_type element )
+{
+    assert(v);
+    if (v->size == v->capacity) vector_double_capacity(v) ;
+    if (index < 0 || index >= v->size)
+    {
+        fprintf(stderr,"Out of index");
+        abort();
+    }
+    for (int i = index+1 ; i < v->size ; i++)
+    {
+        v->array[i] = v->array[i+1]; 
+    }
+    v->array[index] = element;
+    v->size++;
+
+}
+
+void vector_remove_at(vector v , unsigned index )
+{
+    assert(v);
+    if (!v->size) return ;
+    if (index < 0 || index >= v->size)
+    {
+        fprintf(stderr,"Out of index");
+        abort();
+    }
+    for (int i = index ; i < v->size  ; i++)
+    {
+        *(v->array+i) = *(v->array+i+1);  
+    }
+    v->size--;
+
 }
